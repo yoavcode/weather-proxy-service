@@ -7,6 +7,8 @@ import time
 
 from flask import Flask, jsonify, request, g
 
+from app.weather_provider import WeatherProviderError, fetch_weather
+
 app = Flask(__name__)
 
 logger = logging.getLogger("weather-proxy")
@@ -73,7 +75,30 @@ def weather():
     city = (request.args.get("city") or "").strip()
     if not city:
         return jsonify({"error": "city query param is required"}), 400
-    return jsonify({"city": city, "status": "not implemented yet"}), 501
+
+    cache_key = f"weather:city:{city.lower()}"
+
+    # Cache read (best effort)
+    try:
+        cached = redis_client.get(cache_key)
+        if cached:
+            return jsonify(json.loads(cached)), 200
+    except Exception:
+        pass
+
+    # Upstream fetch
+    try:
+        data = fetch_weather(city)
+    except WeatherProviderError:
+        return jsonify({"error": "upstream provider failure"}), 502
+
+    # Cache write (best effort)
+    try:
+        redis_client.setex(cache_key, 60, json.dumps(data))
+    except Exception:
+        pass
+
+    return jsonify(data), 200
 
 
 if __name__ == "__main__":
