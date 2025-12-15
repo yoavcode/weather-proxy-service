@@ -11,6 +11,7 @@ redis_client = redis.Redis(
     decode_responses=True,
 )
 
+
 @app.route("/health", methods=["GET"])
 def health():
     try:
@@ -19,10 +20,15 @@ def health():
     except redis.RedisError:
         redis_status = "down"
 
-    return jsonify({
-        "status": "ok",
-        "redis": redis_status,
-    }), 200
+    return (
+        jsonify(
+            {
+                "status": "ok",
+                "redis": redis_status,
+            }
+        ),
+        200,
+    )
 
 
 if __name__ == "__main__":
