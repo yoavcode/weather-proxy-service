@@ -13,6 +13,7 @@ Run the entire environment (API + Redis) with a single command:
 
 ```bash
 docker-compose up --build
+```
 
 Once running, the service is available at:
 
