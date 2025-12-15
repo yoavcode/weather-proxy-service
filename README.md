@@ -32,3 +32,12 @@ Once running, the service is available at:
 - Redis runs as a separate container and is accessed via Docker’s internal network.
 - The API is intentionally kept simple and synchronous.
 - The focus is on reliability, clarity, and production best practices rather than feature richness.
+
+## Improvements (given more time)
+
+- Add a real city-to-coordinates layer (geocoding) with validation and better error messages.
+- Add explicit upstream observability fields (upstream status code, cache hit/miss) to the structured logs.
+- Add a circuit breaker or rate limiting to protect the upstream provider under heavy load.
+- Improve caching strategy (different TTLs, negative caching, and cache key normalization).
+- Add a /metrics endpoint (Prometheus) and dashboards/alerts for latency and error rates.
+- Add production WSGI server config (gunicorn) and graceful shutdown tests.
