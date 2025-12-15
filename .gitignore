@@ -5,6 +5,10 @@ __pycache__/
 # Virtual environments
 .venv/
 
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+
 # Local notes / execution order
 order.ini
 
