@@ -1,16 +1,13 @@
-# Python
+# Python bytecode
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
 
 # Virtual environments
 .venv/
-venv/
 
-# Local config / notes
+# Local notes / execution order
 order.ini
 
-# OS / editor
+# OS / editor files
 .DS_Store
 .vscode/
